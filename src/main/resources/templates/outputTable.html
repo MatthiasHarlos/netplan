@@ -12,8 +12,12 @@
 <div>
     <button>Grafische Ansicht</button>
 </div>
-<span>Gesamtdauer:</span>
-<span>Kritischer Pfad:</span>
+<span>Gesamtdauer: <span th:text="${knotList.get(knotList.size()-1).getEarliestEnd()}" ></span></span>
+<span>Kritischer Pfad: <span th:each="path : ${pathsList}">
+    <span th:text="${(pathsList.indexOf(path)+1) + '. Pfad: '}" ></span>
+    <span th:each="knot : ${path}" th:text="${knot.getOperationNumber() + ', '}"></span>
+    </span>
+</span>
 
 <table>
     <thead>

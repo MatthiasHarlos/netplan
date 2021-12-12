@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -70,12 +71,16 @@ public class NetPlanController {
         calculateNetPlanResults();
 
         List<List<Knot>> criticalPathsUnclean = new ArrayList<>(knotList.get(knotList.size() - 1).calculateCriticalPath(new ArrayList<>()));
+        System.out.println("Unclean Pfad: " + criticalPathsUnclean);
         List<List<Knot>> criticalPathsClean = new ArrayList<>();
         for(List<Knot> criticalPath : criticalPathsUnclean) {
-            if (criticalPath.get(0).getSuccessor() == null && criticalPath.get(criticalPath.size()-1).getPredecessor() == null) {
+            if (criticalPath.get(0).getSuccessor().size() == 0 && criticalPath.get(criticalPath.size()-1).getPredecessor().size() == 0) {
+                Collections.reverse(criticalPath);
                 criticalPathsClean.add(criticalPath);
             }
         }
+        System.out.println("Pfade: " + criticalPathsClean);
+        model.addAttribute("pathsList", criticalPathsClean);
         model.addAttribute("knotList", knotList);
         return "outputTable";
     }
