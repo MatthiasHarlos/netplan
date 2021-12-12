@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Netzplaner</title>
 </head>
 <body>
+<div>
+    <h2>Netzplan</h2>
+</div>
+<button>neuen Netzplan eingeben</button>
+<div>
+    <button>Grafische Ansicht</button>
+</div>
+<span>Gesamtdauer:</span>
+<span>Kritischer Pfad:</span>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nr.</th>
+        <th>Name:</th>
+        <th>Dauer:</th>
+        <th>Vorgänger:</th>
+        <th>Nachfolger:</th>
+        <th>Gesamter Puffer:</th>
+        <th>Freier Puffer:</th>
+        <th>FAZ:</th>
+        <th>FEZ:</th>
+        <th>SAZ:</th>
+        <th>SEZ:</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="knot : ${knotList}">
+        <td th:text="${knot.operationNumber}"></td>
+        <td th:text="${knot.operationDescription}"></td>
+        <td th:text="${knot.durationInMinutes}"></td>
+        <td><span th:each="predecessor : ${knot.getPredecessor()}" th:text="${predecessor.operationNumber + ' '}"></span></td>
+        <td><span th:each="successor : ${knot.getSuccessor()}" th:text="${successor.operationNumber + ' '}"></span></td>
+        <td th:text="${knot.totalBuffer}"></td>
+        <td th:text="${knot.freeBuffer}"></td>
+        <td th:text="${knot.earliestStart}"></td>
+        <td th:text="${knot.earliestEnd}"></td>
+        <td th:text="${knot.latestStart}"></td>
+        <td th:text="${knot.latestEnd}"></td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

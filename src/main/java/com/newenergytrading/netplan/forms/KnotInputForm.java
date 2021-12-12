@@ -1,13 +1,26 @@
 package com.newenergytrading.netplan.forms;
 
+import org.springframework.lang.NonNull;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class KnotInputForm {
 
     private int operationNumber;
+
+    @NotBlank(message = "Bitte fülle die Vorgangsbeschreibung aus!")
     private String operationDescription;
-    private int durationInMinutes;
+
+    @NotNull(message= "Dauer ausfüllen bitte")
+    private Integer durationInMinutes;
     private Integer predecessorOneListIndex;
     private Integer predecessorTwoListIndex;
     private Integer predecessorThreeListIndex;
+
+    public KnotInputForm() {
+    }
 
     public KnotInputForm(int operationNumber, String operationDescription, int durationInMinutes, Integer predecessorOneListIndex, Integer predecessorTwoListIndex, Integer predecessorThreeListIndex) {
         this.operationNumber = operationNumber;
@@ -34,11 +47,11 @@ public class KnotInputForm {
         this.operationDescription = operationDescription;
     }
 
-    public int getDurationInMinutes() {
+    public Integer getDurationInMinutes() {
         return durationInMinutes;
     }
 
-    public void setDurationInMinutes(int durationInMinutes) {
+    public void setDurationInMinutes(Integer durationInMinutes) {
         this.durationInMinutes = durationInMinutes;
     }
 
@@ -64,5 +77,17 @@ public class KnotInputForm {
 
     public void setPredecessorThreeListIndex(Integer predecessorThreeListIndex) {
         this.predecessorThreeListIndex = predecessorThreeListIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "KnotInputForm{" +
+                "operationNumber=" + operationNumber +
+                ", operationDescription='" + operationDescription + '\'' +
+                ", durationInMinutes=" + durationInMinutes +
+                ", predecessorOneListIndex=" + predecessorOneListIndex +
+                ", predecessorTwoListIndex=" + predecessorTwoListIndex +
+                ", predecessorThreeListIndex=" + predecessorThreeListIndex +
+                '}';
     }
 }

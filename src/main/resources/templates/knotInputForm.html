@@ -1,10 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Netzplaner</title>
 </head>
 <body>
+<div>
+    <form method="post" action="saveInput" th:object="${knotInputFormToSave}">
+    <h3>Vorgang eingeben</h3>
+    <p>- Bitte geben Sie alle nötigen Daten ein -</p>
+    <div>
+        <div>
+            <label>Nr. </label><span th:text="${operationNumber}"></span>
+        </div>
+        <div>
+            <label>Bezeichnung:*</label><input type="text" th:field="*{operationDescription}">
+            <p  class="fielderror-container" th:if="${#fields.hasErrors('operationDescription')}">
+                <span  class="fielderror-detail"  id="errorOne" th:each="err : ${#fields.errors('operationDescription')}" th:text="${err}"></span>
+            </p>
+        </div>
+        <div>
+            <label>Dauer in Minuten:*</label><input type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
+            <p  class="fielderror-container" th:if="${#fields.hasErrors('durationInMinutes')}">
+                <span  class="fielderror-detail"  id="errorTwo" th:each="err : ${#fields.errors('durationInMinutes')}" th:text="${err}"></span>
+            </p>
+        </div>
+        <div>
+            <label>Vorgänger 1:</label>
+            <select th:field="*{predecessorOneListIndex}">
+                <option value=""></option>
+                <option th:each="knotInputForm : ${knotInputFormList}"
+                        th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
+                        th:value="${knotInputFormList.indexOf(knotInputForm)}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Vorgänger 2:</label>
+            <select th:field="*{predecessorTwoListIndex}">
+                <option value=""></option>
+                <option th:each="knotInputForm : ${knotInputFormList}"
+                        th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
+                        th:value="${knotInputFormList.indexOf(knotInputForm)}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Vorgänger 3:</label>
+            <select th:field="*{predecessorThreeListIndex}">
+                <option value=""></option>
+                <option th:each="knotInputForm : ${knotInputFormList}"
+                        th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
+                        th:value="${knotInputFormList.indexOf(knotInputForm)}"></option>
+            </select>
+        </div>
+    </div>
+        <button type="reset">löschen</button>
+        <button type="submit">speichern</button>
+    </form>
+        <button onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
+         <p  class="fielderror-container" th:if="${error}">
+            <span  class="fielderror-detail"  id="errorThree"  th:text="${error}"></span>
+         </p>
+</div>
+
+<div>
+    <h3>Ihre eingegebenen Daten</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nr.</th>
+                <th>Bezeichnung</th>
+                <th>Dauer</th>
+                <th>Vorgänger</th>
+                <th>ändern</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="knotInputForm : ${knotInputFormList}">
+            <td th:text="${knotInputForm.operationNumber}"></td>
+            <td th:text="${knotInputForm.operationDescription}"></td>
+            <td th:text="${knotInputForm.durationInMinutes}"></td>
+            <td>
+                <span th:if="${knotInputForm.predecessorOneListIndex != null}" th:text="${(knotInputForm.predecessorOneListIndex + 1)}"></span>
+                <span th:if="${knotInputForm.predecessorTwoListIndex != null}" th:text="${ ', ' + (knotInputForm.predecessorTwoListIndex + 1)}"></span>
+                <span th:if="${knotInputForm.predecessorThreeListIndex != null}" th:text="${ ', ' + (knotInputForm.predecessorThreeListIndex + 1)}"></span>
+            </td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

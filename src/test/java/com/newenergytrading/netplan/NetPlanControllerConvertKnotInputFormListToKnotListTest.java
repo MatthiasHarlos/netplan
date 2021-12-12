@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NetPlanControllerConvertKnotInputFormListToKnotList {
+public class NetPlanControllerConvertKnotInputFormListToKnotListTest {
 
     @Test
     void test1() {

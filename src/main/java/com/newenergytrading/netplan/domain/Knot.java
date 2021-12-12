@@ -23,7 +23,7 @@ public class Knot {
         List<Knot> anotherPath;
         if (this.getTotalBuffer() == 0 && this.getFreeBuffer() == 0) {
             criticalPath.add(this);
-            if (this.predecessor != null) {
+            if (this.predecessor.size() > 0) {
                 if (this.predecessor.size() == 1) {
                     return predecessor.get(0).calculateCriticalPath(criticalPath);
                 } else {
@@ -41,7 +41,7 @@ public class Knot {
     }
 
     public void calculateEarliestTime(int earliestTime) {
-        if (this.predecessor != null) {
+        if (this.predecessor.size() > 0) {
             Knot result = this.predecessor.get(0);
             for (Knot predecessor : this.predecessor) {
                 if(result.getEarliestEnd() < predecessor.getEarliestEnd()){
@@ -53,7 +53,7 @@ public class Knot {
         } else {
             this.setEarliestEnd(this.durationInMinutes);
         }
-        if (this.successor != null) {
+        if (this.successor.size() > 0) {
             for (Knot successor : this.successor) {
                 successor.calculateEarliestTime(this.getEarliestEnd());
             }
@@ -61,7 +61,7 @@ public class Knot {
     }
 
     public void calculateLatestTime(int latestTime) {
-        if (this.successor != null) {
+        if (this.successor.size() > 0) {
             Knot result = this.successor.get(0);
             for (Knot successor : this.successor) {
                 if(result.getLatestStart() > successor.getLatestStart()){
@@ -74,7 +74,7 @@ public class Knot {
             this.setLatestEnd(this.getEarliestEnd());
             this.setLatestStart(this.getLatestEnd() - this.durationInMinutes);
         }
-        if (this.predecessor != null) {
+        if (this.predecessor.size() > 0) {
             for (Knot predecessor : this.predecessor) {
                 predecessor.calculateLatestTime(this.getLatestStart());
             }
@@ -82,11 +82,11 @@ public class Knot {
     }
 
     public void calculateBuffer() {
-        if (this.successor != null) {
+        if (this.successor.size() > 0) {
             this.totalBuffer = this.latestStart - this.earliestStart;
             this.freeBuffer = this.getSuccessor().get(0).getEarliestStart() - this.earliestEnd;
         }
-        if (this.predecessor != null) {
+        if (this.predecessor.size() > 0) {
             for (Knot predecessor : this.predecessor) {
                 predecessor.calculateBuffer();
             }
@@ -221,8 +221,14 @@ public class Knot {
     public String toString() {
         return "Knot{" +
                 "operationNumber=" + operationNumber +
+                ", operationDescription='" + operationDescription + '\'' +
+                ", durationInMinutes=" + durationInMinutes +
                 ", earliestStart=" + earliestStart +
                 ", earliestEnd=" + earliestEnd +
+                ", latestStart=" + latestStart +
+                ", latestEnd=" + latestEnd +
+                ", totalBuffer=" + totalBuffer +
+                ", freeBuffer=" + freeBuffer +
                 '}';
     }
 }
