@@ -3,31 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <title>Netzplaner</title>
+    <style>
+        body {
+        margin-top: 5%;
+        }
+
+         .center {
+         text-align: center;
+         }
+
+          .box {
+            float: left;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin: 0 20px;
+            width: 40%;
+            background: #d1d1d1;
+            box-sizing: border-box;
+            border: 1px solid grey;
+        }
+        .box2 {
+            float: left;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin: 0 20px;
+            width: 45%;
+            border: 1px solid grey;
+            background: #989898;
+        }
+
+        .table {
+        width: 100%;
+        }
+
+        .left {
+        float: left;
+        width: 250px;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        }
+        .right {
+        float: left;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        width: 150px;
+        margin: 0 auto;
+        }
+
+        .button {
+        margin-top: 10%;
+        border-radius: 12px;
+        color: white;
+        }
+
+        .buttonNetPlan {
+        padding: 10px;
+        background: #93f261;
+        border: 1px solid #93f261;
+        }
+
+        .buttonDelete {
+        background: #f82b2b;
+        border: 1px solid #f82b2b;
+        }
+
+        .buttonSubmit {
+        background: dimGrey;
+        border: 1px solid dimGrey;
+        }
+
+        .dimGrey {
+        border: 1px solid grey;
+        background: #989898;
+        width: 109.5%;
+        margin-top: 1%;
+        margin-left: -5%;
+        text-align: right;
+        }
+    </style>
 </head>
 <body>
-<div>
+<div class="box">
     <form method="post" action="saveInput" th:object="${knotInputFormToSave}">
-    <h3>Vorgang eingeben</h3>
-    <p>- Bitte geben Sie alle nötigen Daten ein -</p>
+        <div class="dimGrey">
+             <h2 class="center">Vorgang eingeben</h2>
+             <p class="center" style="font-size: 12px">- Bitte geben Sie alle nötigen Daten ein -</p>
+        </div>
     <div>
         <div>
-            <label>Nr. </label><span th:text="${operationNumber}"></span>
+            <label class="left">Nr. </label><span class="right" th:text="${operationNumber}"></span>
         </div>
         <div>
-            <label>Bezeichnung:*</label><input type="text" th:field="*{operationDescription}">
+            <label class="left">Bezeichnung:*</label><input class="right" type="text" th:field="*{operationDescription}">
             <p  class="fielderror-container" th:if="${#fields.hasErrors('operationDescription')}">
                 <span  class="fielderror-detail"  id="errorOne" th:each="err : ${#fields.errors('operationDescription')}" th:text="${err}"></span>
             </p>
         </div>
         <div>
-            <label>Dauer in Minuten:*</label><input type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
+            <label class="left" >Dauer in Minuten:*</label><input class="right" type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
             <p  class="fielderror-container" th:if="${#fields.hasErrors('durationInMinutes')}">
                 <span  class="fielderror-detail"  id="errorTwo" th:each="err : ${#fields.errors('durationInMinutes')}" th:text="${err}"></span>
             </p>
         </div>
         <div>
-            <label>Vorgänger 1:</label>
-            <select th:field="*{predecessorOneListIndex}">
+            <label class="left">Vorgänger 1:</label>
+            <select class="right" th:field="*{predecessorOneListIndex}">
                 <option value=""></option>
                 <option th:each="knotInputForm : ${knotInputFormList}"
                         th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
@@ -35,8 +115,8 @@
             </select>
         </div>
         <div>
-            <label>Vorgänger 2:</label>
-            <select th:field="*{predecessorTwoListIndex}">
+            <label class="left">Vorgänger 2:</label>
+            <select class="right" th:field="*{predecessorTwoListIndex}">
                 <option value=""></option>
                 <option th:each="knotInputForm : ${knotInputFormList}"
                         th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
@@ -44,8 +124,8 @@
             </select>
         </div>
         <div>
-            <label>Vorgänger 3:</label>
-            <select th:field="*{predecessorThreeListIndex}">
+            <label class="left">Vorgänger 3:</label>
+            <select class="right" th:field="*{predecessorThreeListIndex}">
                 <option value=""></option>
                 <option th:each="knotInputForm : ${knotInputFormList}"
                         th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
@@ -53,20 +133,25 @@
             </select>
         </div>
     </div>
-        <button type="reset">löschen</button>
-        <button type="submit">speichern</button>
+        <div class="right" >
+            <button class="button buttonDelete" type="reset">löschen</button>
+            <button class="button buttonSubmit" type="submit">speichern</button>
+        </div>
     </form>
-        <button onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
+    <div class="left"></div>
+        <button class="button buttonNetPlan" class="right" onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
          <p  class="fielderror-container" th:if="${error}">
             <span  class="fielderror-detail"  id="errorThree"  th:text="${error}"></span>
          </p>
+    <div class="dimGrey">
+        * Pflichtfelder
+    </div>
 </div>
 
-<div>
+<div class="box2 center">
     <h3>Ihre eingegebenen Daten</h3>
-
-    <table>
-        <thead>
+    <table class="table" border="1">
+        <thead style="background: #aeaeae">
             <tr>
                 <th>Nr.</th>
                 <th>Bezeichnung</th>
@@ -75,7 +160,7 @@
                 <th>ändern</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="background: #d1d1d1">
         <tr th:each="knotInputForm : ${knotInputFormList}">
             <td th:text="${knotInputForm.operationNumber}"></td>
             <td th:text="${knotInputForm.operationDescription}"></td>

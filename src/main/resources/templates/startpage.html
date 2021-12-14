@@ -3,17 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <title>Netzplaner</title>
+    <style>
+        body {
+        background: #e0e0e0;
+        text-align: center;
+        }
+        .box {
+            float: left;
+            padding: 20px;
+            margin: 0 20px;
+            width: 33%;
+            background: #d1d1d1;
+            box-sizing: border-box;
+            border: 1px solid grey;
+        }
+        .box2 {
+            float: left;
+            padding: 20px;
+            margin: 0 20px;
+            width: 45%;
+            height: 270px;
+            border: 1px solid grey;
+            background: #d1d1d1;
+        }
+
+        .button {
+        width: 100%;
+        margin-bottom: 10%;
+        padding: 10px;
+        background: #93f261;
+        border: 1px solid #93f261;
+        border-radius: 12px;
+        color: white;
+        }
+
+        .title {
+        background: white;
+        border: 1px solid grey;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-bottom: 3%;
+        }
+
+        .link {
+        border: 1px solid grey;
+        background: #989898;
+        position: absolute;
+        width: 32.3%;
+        margin-top: 1%;
+        height: 40px;
+        margin-left: -1.8%;
+        text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h1>Willkommen bei Ihrem Netzplan-Rechner!</h1>
-<div>
+<div class="title">
+    <h1>Willkommen bei Ihrem Netzplan-Rechner!</h1>
+</div>
+<div class="box">
     <p>Auf diesen Seiten haben Sie die Möglichkeit sich schnell und einfach einen Netzplan erstellen zu lassen!</p>
     <p>Der von uns, mithilfe Ihrer eingegebenen Daten, erstellte Netzplan gibt Ihnen Auskunft über die Gesamtdauer des Projekts, die Pufferzeiten und den kritischen Pfad, außerdem können Sie alle Teilschritte übersichtlich dargestellt betrachten!</p>
-    <a href="https://de.wikipedia.org/wiki/Netzplantechnik"></a>
+    <div class="link">
+        <a href="https://de.wikipedia.org/wiki/Netzplantechnik">Link: wikipedia/netzplan</a>
+    </div>
 </div>
 
-<div>
-    <button onclick="window.location.href='/input'">Netzplan eingeben</button>
+<div class="box2">
+    <button class="button" onclick="window.location.href='/input'">Netzplan eingeben</button>
     <div style="background: url('https://upload.wikimedia.org/wikipedia/de/3/33/NetzplanBsp.png') no-repeat; background-size: 500px auto; width: 500px; height: 500px;"></div>
 </div>
 
