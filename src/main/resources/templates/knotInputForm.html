@@ -81,17 +81,18 @@
         text-align: right;
         }
     </style>
+
 </head>
 <body>
 <div class="box">
     <form method="post" action="saveInput" th:object="${knotInputFormToSave}">
         <div class="dimGrey">
-             <h2 class="center">Vorgang eingeben</h2>
+             <h2 class="center">Vorgang <span th:utext="${operation}"></span></h2>
              <p class="center" style="font-size: 12px">- Bitte geben Sie alle nötigen Daten ein -</p>
         </div>
     <div>
         <div>
-            <label class="left">Nr. </label><span class="right" th:text="${operationNumber}"></span>
+            <label class="left">Nr. </label><input class="right" id="operationNumber" name="operationNumber" th:value="${operationNumber}" readonly>
         </div>
         <div>
             <label class="left">Bezeichnung:*</label><input class="right" type="text" th:field="*{operationDescription}">
@@ -100,7 +101,7 @@
             </p>
         </div>
         <div>
-            <label class="left" >Dauer in Minuten:*</label><input class="right" type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
+            <label class="left" >Dauer in Minuten:*</label><input th:field="*{durationInMinutes}" class="right" type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
             <p  class="fielderror-container" th:if="${#fields.hasErrors('durationInMinutes')}">
                 <span  class="fielderror-detail"  id="errorTwo" th:each="err : ${#fields.errors('durationInMinutes')}" th:text="${err}"></span>
             </p>
@@ -110,6 +111,7 @@
             <select class="right" th:field="*{predecessorOneListIndex}">
                 <option value=""></option>
                 <option th:each="knotInputForm : ${knotInputFormList}"
+                        th:if="${knotInputForm.operationNumber < operationNumber}"
                         th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
                         th:value="${knotInputFormList.indexOf(knotInputForm)}"></option>
             </select>
@@ -119,6 +121,7 @@
             <select class="right" th:field="*{predecessorTwoListIndex}">
                 <option value=""></option>
                 <option th:each="knotInputForm : ${knotInputFormList}"
+                        th:if="${knotInputForm.operationNumber < operationNumber}"
                         th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
                         th:value="${knotInputFormList.indexOf(knotInputForm)}"></option>
             </select>
@@ -128,6 +131,7 @@
             <select class="right" th:field="*{predecessorThreeListIndex}">
                 <option value=""></option>
                 <option th:each="knotInputForm : ${knotInputFormList}"
+                        th:if="${knotInputForm.operationNumber < operationNumber}"
                         th:text="${knotInputForm.operationNumber + '(' + knotInputForm.operationDescription + ')'}"
                         th:value="${knotInputFormList.indexOf(knotInputForm)}"></option>
             </select>
@@ -139,7 +143,7 @@
         </div>
     </form>
     <div class="left"></div>
-        <button class="button buttonNetPlan" class="right" onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
+        <button class="button buttonNetPlan" onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
          <p  class="fielderror-container" th:if="${error}">
             <span  class="fielderror-detail"  id="errorThree"  th:text="${error}"></span>
          </p>
@@ -170,7 +174,12 @@
                 <span th:if="${knotInputForm.predecessorTwoListIndex != null}" th:text="${ ', ' + (knotInputForm.predecessorTwoListIndex + 1)}"></span>
                 <span th:if="${knotInputForm.predecessorThreeListIndex != null}" th:text="${ ', ' + (knotInputForm.predecessorThreeListIndex + 1)}"></span>
             </td>
-            <td></td>
+            <td>
+                <form method="post" action="changeInput" th:object="${changeKnotInputForm}">
+                    <input id="operationNumber" name="operationNumber" th:value="${knotInputFormList.indexOf(knotInputForm)}" hidden>
+                    <button type="submit">&#9998;</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
