@@ -40,7 +40,7 @@ public class NetPlanController {
         model.addAttribute("knotInputFormToSave", knotInputFormList.get(changeKnotInputForm.getOperationNumber()));
         model.addAttribute("operationNumber", changeKnotInputForm.getOperationNumber()+1);
         model.addAttribute("knotInputFormList", knotInputFormList);
-        model.addAttribute("operation", "ändern <a href='http://localhost:8080/input'>|abbrechen|</a>");
+        model.addAttribute("operation", "ändern <a href='https://netzplan.herokuapp.com/input'>|abbrechen|</a>");
         return "knotInputForm";
     }
 
