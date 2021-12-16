@@ -17,6 +17,44 @@ public class Knot {
     private List<Knot> successor = new ArrayList<>();
     private List<Knot> predecessor = new ArrayList<>();
 
+    private static int counter = 1;
+
+
+    public String getCssConnectionStyle(int successorSize) {
+        String test = "";
+        if (this.predecessor.size() == 0 || this.successor.size() > 1) {
+            test += "#vorgang" + this.getOperationNumber() + "{\n" +
+                    "margin-top: 10%;\n" +
+                    " \twidth: 20%;\n" +
+                    " \theight: 5em;\n" +
+                    " \tmargin-left:40%;\n" +
+                    " \tmargin-right: 100%;\n" +
+                    "}\n";
+        } else if (successorSize <= 2) {
+            test += "#vorgang" + this.getOperationNumber() + "{\n" +
+                    "margin-top: 10%;\n" +
+                    " \twidth: 20%;\n" +
+                    " \theight: 5em;\n" +
+                    " \tmargin-left:" + 40/successorSize + "%;\n" +
+                    " \tmargin-right: 20px;\n" +
+                    "}\n";
+        } else if (successorSize > 2) {
+            test += "#vorgang" + this.getOperationNumber() + "{\n" +
+                    "margin-top: 10%;\n" +
+                    " \twidth: " + 50/successorSize + "%;\n" +
+                    " \theight: 5em;\n" +
+                    " \tmargin-left:" + 40/successorSize + "%;\n" +
+                    " \tmargin-right: 20px;\n" +
+                    " font-size: 10px;\n" +
+                    "}\n";
+        }
+        if (this.getSuccessor().size() > 0) {
+            for (Knot success : this.successor) {
+                test += success.getCssConnectionStyle(this.successor.size());
+            }
+        }
+        return test;
+    }
 
     public List<List<Knot>> calculateCriticalPath(List<Knot> criticalPath) {
         List<List<Knot>> criticalPaths = new ArrayList<>();

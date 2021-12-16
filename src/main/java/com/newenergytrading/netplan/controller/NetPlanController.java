@@ -127,6 +127,33 @@ public class NetPlanController {
     public String getNetPlanOutputGraphic(Model model) {
         model.addAttribute("knotList", knotList);
         model.addAttribute("pathsList", criticalPathsClean);
+
+        String javaScriptKnotConnection = "function connectAll() {\n";
+        int counter = 0;
+        List<Integer> countedPaths = new ArrayList<>();
+        String test = "";
+        for(Knot knot : knotList) {
+            if (knot.getPredecessor().size() == 0){
+                test += knot.getCssConnectionStyle(0);
+            }
+            if (knot.getSuccessor().size() > 0) {
+                for (Knot success : knot.getSuccessor()) {
+                    counter++;
+                    countedPaths.add(counter);
+                    javaScriptKnotConnection += "    connectElements($(\"#svg1\"), $(\"#path" + counter + "\"), $(\"#vorgang" + knot.getOperationNumber() + "\"),   $(\"#vorgang" + success.getOperationNumber() + "\"));\n";
+                }
+            }
+        }
+
+
+        javaScriptKnotConnection += "}";
+
+        System.out.println(javaScriptKnotConnection);
+        System.out.println(test);
+        System.out.println(countedPaths);
+        model.addAttribute("countedPaths", countedPaths);
+        model.addAttribute("cssConnectionStyle", test);
+        model.addAttribute("javaScriptKnots", javaScriptKnotConnection);
         return "outputGraphic";
     }
 
