@@ -20,6 +20,7 @@ public class NetPlanController {
 
     private static List<KnotInputForm> knotInputFormList = new ArrayList<>();
     private static List<Knot> knotList = new ArrayList<>();
+    private static List<List<Knot>> criticalPathsClean = new ArrayList<>();
 
     @GetMapping("/")
     public String getStartPage(){
@@ -110,7 +111,6 @@ public class NetPlanController {
 
         List<List<Knot>> criticalPathsUnclean = new ArrayList<>(knotList.get(knotList.size() - 1).calculateCriticalPath(new ArrayList<>()));
         System.out.println("Unclean Pfad: " + criticalPathsUnclean);
-        List<List<Knot>> criticalPathsClean = new ArrayList<>();
         for(List<Knot> criticalPath : criticalPathsUnclean) {
             if (criticalPath.get(0).getSuccessor().size() == 0 && criticalPath.get(criticalPath.size()-1).getPredecessor().size() == 0) {
                 Collections.reverse(criticalPath);
@@ -121,6 +121,13 @@ public class NetPlanController {
         model.addAttribute("pathsList", criticalPathsClean);
         model.addAttribute("knotList", knotList);
         return "outputTable";
+    }
+
+    @GetMapping("graphicNetplan")
+    public String getNetPlanOutputGraphic(Model model) {
+        model.addAttribute("knotList", knotList);
+        model.addAttribute("pathsList", criticalPathsClean);
+        return "outputGraphic";
     }
 
     public List<Knot> convertKnotInputFormListToKnotList(List<KnotInputForm> knotInputFormList) {

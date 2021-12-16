@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Netzplaner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
     <style>
 
     body {
@@ -32,6 +33,7 @@
          .title {
         padding: 20px;
         border: 1px solid grey;
+        margin-top: 10%;
         margin-left: 20%;
         margin-right: 20%;
         margin-bottom: 3%;
@@ -69,7 +71,7 @@
 </div>
 <button class="buttonTop button buttonGreen" onclick="window.location.href='/deletedOld'">neuen Netzplan eingeben</button>
 <div class="buttonTop2">
-    <button class="button buttonGreen">Grafische Ansicht</button>
+    <button class="button buttonGreen" onclick="window.location.href='/graphicNetplan'">Grafische Ansicht</button>
 </div>
 <span class="box2" style="background: white">Gesamtdauer: <span th:text="${knotList.get(knotList.size()-1).getEarliestEnd()}" ></span></span>
 <span class="box2" style="background: #f0ce6c">Kritischer Pfad: <span th:each="path : ${pathsList}">

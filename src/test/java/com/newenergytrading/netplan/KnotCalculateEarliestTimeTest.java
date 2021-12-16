@@ -77,10 +77,6 @@ public class KnotCalculateEarliestTimeTest {
         List<Knot> resultList = resultList();
 
         for (Knot knot : knotList) {
-            // Funktioniet nur mit null. Mit size funktioniert der test nicht.
-            // Knot methoden Abfrage war zuerst mit Null. Jetzt mit size(), da das Programm nicht mit null arbeitet,
-            // Der Test aber schon.
-            // Alle Tests funktionieren nur wenn im Knot size() mit null abfrage ersetzt wird.
             List<Knot> predecessor = knot.getPredecessor();
             if (predecessor == null) {
                 knot.calculateEarliestTime(0);

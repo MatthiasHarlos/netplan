@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Netzplan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
+    <style>
+
+    body {
+    text-align: center;
+    padding: 20px;
+   background: #e0e0e0;
+    }
+
+        .table {
+        margin-top: 100px;
+        background: white;
+        width: 100%;
+        }
+
+         .box2 {
+            float: left;
+            padding-left: 30px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 30px;
+            margin: 0 20px;
+            width: 40%;
+            border: 1px solid grey;
+            background: #989898;
+        }
+
+         .title {
+        padding: 20px;
+        border: 1px solid grey;
+        margin-top: 10%;
+        margin-left: 20%;
+        margin-right: 20%;
+        margin-bottom: 3%;
+        background: grey;
+        }
+
+        .buttonTop {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+         .buttonTop2 {
+            position: absolute;
+            top: 40px;
+            right: 10px;
+        }
+
+        .button {
+        color: white;
+        width: 180px;
+        border-radius: 12px;
+        }
+
+        .buttonGreen {
+        padding: 4px;
+        background: #93f261;
+        border: 1px solid #93f261;
+        }
+
+        .container {
+        margin: 0 auto;
+        width: 150px;
+        float: left;
+        flex: 2 1 auto;
+        display: grid;
+        grid-template-rows: 15px 2fr 15px 1fr;
+        grid-template-columns: 10%;
+        }
+
+         .faz {
+        grid-column: 1;
+        grid-row: 1;
+        }
+        .fez {
+        grid-column: 5;
+        grid-row: 1;
+        }
+        .vn {
+        grid-column: 2;
+        grid-row: 2;
+        }
+        .vorgangsbezeichnung {
+        grid-column: 2 / 6;
+        grid-row: 2;
+        }
+
+        .dauer {
+        grid-column: 2;
+        grid-row: 3;
+        }
+        .gp {
+        grid-column: 3;
+        grid-row: 3;
+        }
+        .fp {
+        grid-column: 4;
+        grid-row: 3;
+        }
+        .saz {
+        grid-column: 1;
+        grid-row: 4;
+        }
+        .sez {
+        grid-column: 5;
+        grid-row: 4;
+        }
+
+
+        .tree ul {
+	padding-top: 20px; position: relative;
+
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+
+
+
+
+.tree li {
+	float: left;
+	text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 20px 5px 0 5px;
+
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+.tree li::before, .tree li::after{
+	content: '';
+
+	position: absolute;
+    top: 0;
+	right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 20px;
+}
+
+.tree li::after{
+	right: auto;
+	left: 50%;
+
+	border-left: 1px solid #ccc;
+}
+
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
+}
+
+.tree li:only-child{ padding-top: 0;}
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+
+
+.tree ul:ul::before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 20px;
+}
+
+
+
+
+.tree li a{
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #666;
+	font-family: arial, verdana, tahoma;
+	font-size: 11px;
+	display: inline-block;
+
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+
+
+
+
+
+
+
+
+
+#svgContainer {
+	z-index: -10;
+	position:absolute;
+	opacity: 0.5;
+}
+
+#outer{
+	margin:0 auto;
+	width: 80%;
+}
+    </style>
+    <style >
+
+#vorgang1{
+margin-top: 10%;
+ 	width: 20%;
+ 	height: 4em;
+ 	margin-left:30%;
+ 	margin-right: 20px;
+ 	background-color:teal;
+}
+#vorgang2{
+	height: 4em;
+	width: 20%;
+	margin-left: -10%;
+	margin-top: 20%;
+	background-color: orange;
+}
+
+#vorgang3{
+margin-top: 10%;
+	width:20%;
+	height: 4em;
+	margin-left: 40%;
+	background-color:red;
+}
+
+#purple{
+margin-top: 10%;
+	width:35%;
+	height: 4em;
+	margin-left: 50%;
+	padding:1em 2em;
+	background-color:purple;
+}
+
+#pink{
+margin-top: -10%;
+	width:35%;
+	height: 4em;
+	margin-left: 0%;
+	padding:1em 2em;
+	background-color:pink;
+}
+
+#yellow{
+margin-top: 10%;
+	width:35%;
+	height: 4em;
+	margin-left: 30%;
+	padding:1em 2em;
+	background-color:yellow;
+}
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <h2 class="title">Netzplan</h2>
+</div>
+<button class="buttonTop button buttonGreen" onclick="window.location.href='/deletedOld'">neuen Netzplan eingeben</button>
+<div class="buttonTop2">
+    <button class="button buttonGreen">Tabellarische Ansicht</button>
+</div>
+<span class="box2" style="background: white">Gesamtdauer: <span th:text="${knotList.get(knotList.size()-1).getEarliestEnd()}" ></span></span>
+<span class="box2" style="background: #f0ce6c">Kritischer Pfad: <span th:each="path : ${pathsList}">
+    <span th:text="${(pathsList.indexOf(path)+1) + '. Pfad: '}" ></span>
+    <span th:each="knot : ${path}" th:text="${knot.getOperationNumber() + ', '}"></span>
+    </span>
+</span>
+
+
+
+
+
+
+
+<div id="svgContainer" style="margin: 0 auto;">
+    <svg id="svg1" width="0" height="0" >
+        <path   th:each="knot : ${knotList}"
+                th:id="'path' + ${knot.operationNumber}"
+                d="M0 0"
+                stroke="#000"
+                fill="none"
+                stroke-width="12px";/>
+    </svg>
+</div>
+
+<div id= "outer">
+    <div class="container" th:each="knot : ${knotList}" th:id="'vorgang' + ${knot.operationNumber}">
+        <div class="faz zeiten" th:text="${knot.earliestStart}">FAZ</div>
+        <div class="fez zeiten" th:text="${knot.earliestEnd}">FEZ</div>
+        <div class="vn"  th:text="${knot.operationNumber}"> VN </div>
+        <div class="vorgangsbezeichnung" th:text="${knot.operationDescription}">Beispieltext</div>
+        <div class="dauer" th:text="${knot.durationInMinutes}">Dauer</div>
+        <div class="gp puffer" th:text="${knot.totalBuffer}">GP</div>
+        <div class="fp puffer" th:text="${knot.freeBuffer}">FP</div>
+        <div class="saz zeiten" th:text="${knot.latestStart}">SAZ</div>
+        <div class="sez zeiten" th:text="${knot.latestEnd}">SEZ</div>
+    </div>
+</div>
+
+
+<script>
+    function connectAll() {
+    // connect all the paths you want!
+    connectElements($("#svg1"), $("#path1"), $("#vorgang1"),   $("#vorgang2"));
+    connectElements($("#svg1"), $("#path2"), $("#vorgang2"),   $("#vorgang3"));
+    }
+</script>
+
+<script>
+    function signum(x) {
+    return (x < 0) ? -1 : 1;
+}
+function absolute(x) {
+    return (x < 0) ? -x : x;
+}
+
+function drawPath(svg, path, startX, startY, endX, endY) {
+    // get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
+    var stroke =  parseFloat(path.attr("stroke-width"));
+    // check if the svg is big enough to draw the path, if not, set heigh/width
+    if (svg.attr("height") <  endY)                 svg.attr("height", endY);
+    if (svg.attr("width" ) < (startX + stroke) )    svg.attr("width", (startX + stroke));
+    if (svg.attr("width" ) < (endX   + stroke) )    svg.attr("width", (endX   + stroke));
+
+    var deltaX = (endX - startX) * 0.15;
+    var deltaY = (endY - startY) * 0.15;
+    // for further calculations which ever is the shortest distance
+    var delta  =  deltaY < absolute(deltaX) ? deltaY : absolute(deltaX);
+
+    // set sweep-flag (counter/clock-wise)
+    // if start element is closer to the left edge,
+    // draw the first arc counter-clockwise, and the second one clock-wise
+    var arc1 = 0; var arc2 = 1;
+    if (startX > endX) {
+        arc1 = 1;
+        arc2 = 0;
+    }
+    // draw tha pipe-like path
+    // 1. move a bit down, 2. arch,  3. move a bit to the right, 4.arch, 5. move down to the end
+    path.attr("d",  "M"  + startX + " " + startY +
+                    " V" + (startY + delta) +
+                    " A" + delta + " " +  delta + " 0 0 " + arc1 + " " + (startX + delta*signum(deltaX)) + " " + (startY + 2*delta) +
+                    " H" + (endX - delta*signum(deltaX)) +
+                    " A" + delta + " " +  delta + " 0 0 " + arc2 + " " + endX + " " + (startY + 3*delta) +
+                    " V" + endY );
+}
+
+function connectElements(svg, path, startElem, endElem) {
+    var svgContainer= $("#svgContainer");
+
+    // if first element is lower than the second, swap!
+    if(startElem.offset().top > endElem.offset().top){
+        var temp = startElem;
+        startElem = endElem;
+        endElem = temp;
+    }
+
+    // get (top, left) corner coordinates of the svg container
+    var svgTop  = svgContainer.offset().top;
+    var svgLeft = svgContainer.offset().left;
+
+    // get (top, left) coordinates for the two elements
+    var startCoord = startElem.offset();
+    var endCoord   = endElem.offset();
+
+    // calculate path's start (x,y)  coords
+    // we want the x coordinate to visually result in the element's mid point
+    var startX = startCoord.left + 0.5*startElem.outerWidth() - svgLeft;    // x = left offset + 0.5*width - svg's left offset
+    var startY = startCoord.top  + startElem.outerHeight() - svgTop;        // y = top offset + height - svg's top offset
+
+        // calculate path's end (x,y) coords
+    var endX = endCoord.left + 0.5*endElem.outerWidth() - svgLeft;
+    var endY = endCoord.top  - svgTop;
+
+    // call function for drawing the path
+    drawPath(svg, path, startX, startY, endX, endY);
+
+}
+
+$(document).ready(function() {
+    // reset svg each time
+    $("#svg1").attr("height", "0");
+    $("#svg1").attr("width", "0");
+    connectAll();
+});
+
+$(window).resize(function () {
+    // reset svg each time
+    $("#svg1").attr("height", "0");
+    $("#svg1").attr("width", "0");
+    connectAll();
+});
+</script>
+
+
+
+
+</body>
+</html>
