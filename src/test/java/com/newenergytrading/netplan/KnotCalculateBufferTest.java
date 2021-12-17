@@ -49,6 +49,9 @@ public class KnotCalculateBufferTest {
                 knot.calculateBuffer();
             }
         }
+
+        Assertions.assertEquals(1, knotList.get(0).countStartKnots(0));
+
         Assertions.assertEquals(0, knotList.get(0).getTotalBuffer());
         Assertions.assertEquals(0, knotList.get(0).getFreeBuffer());
         Assertions.assertEquals(0, knotList.get(1).getTotalBuffer());

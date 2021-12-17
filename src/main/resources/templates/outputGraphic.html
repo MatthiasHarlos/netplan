@@ -188,7 +188,7 @@ function drawPath(svg, path, startX, startY, endX, endY) {
     if (svg.attr("width" ) < (startX + stroke) )    svg.attr("width", (startX + stroke));
     if (svg.attr("width" ) < (endX   + stroke) )    svg.attr("width", (endX   + stroke));
 
-    var deltaX = (endX - startX) * 0.25;
+    var deltaX = (endX - startX) * 0.65;
     var deltaY = (endY - startY) * 0.35;
     // for further calculations which ever is the shortest distance
     var delta  =  deltaY < absolute(deltaX) ? deltaY : absolute(deltaX);

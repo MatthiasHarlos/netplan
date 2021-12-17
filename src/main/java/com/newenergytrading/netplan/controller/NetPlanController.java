@@ -29,6 +29,7 @@ public class NetPlanController {
 
     @GetMapping("input")
     public String getKnotFormInput(Model model) {
+        criticalPathsClean = new ArrayList<>();
         model.addAttribute("knotInputFormToSave", new KnotInputForm());
         model.addAttribute("operationNumber", knotInputFormList.size()+1);
         model.addAttribute("knotInputFormList", knotInputFormList);
@@ -49,6 +50,7 @@ public class NetPlanController {
     public String deleteOldNetPlan () {
         knotInputFormList = new ArrayList<>();
         knotList = new ArrayList<>();
+        criticalPathsClean = new ArrayList<>();
         return "redirect:input";
     }
 

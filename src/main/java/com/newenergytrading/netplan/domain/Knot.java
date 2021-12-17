@@ -17,19 +17,41 @@ public class Knot {
     private List<Knot> successor = new ArrayList<>();
     private List<Knot> predecessor = new ArrayList<>();
 
-    private static int counter = 1;
 
+    public int countStartKnots(int counter) {
+        if ( this.predecessor.size() == 0) {
+            counter++;
+        }
+        if (this.successor.size() > 0) {
+            for (Knot success : this.successor) {
+                counter += success.countStartKnots(counter);
+            }
+        }
+        System.out.println("CountStartKnots= " + counter);
+        return counter;
+    }
 
     public String getCssConnectionStyle(int successorSize) {
         String test = "";
         if (this.predecessor.size() == 0 || this.successor.size() > 1) {
-            test += "#vorgang" + this.getOperationNumber() + "{\n" +
-                    "margin-top: 10%;\n" +
-                    " \twidth: 20%;\n" +
-                    " \theight: 5em;\n" +
-                    " \tmargin-left:40%;\n" +
-                    " \tmargin-right: 100%;\n" +
-                    "}\n";
+            int startKnots = this.countStartKnots(0);
+            if (startKnots == 1) {
+                test += "#vorgang" + this.getOperationNumber() + "{\n" +
+                        "margin-top: 10%;\n" +
+                        " \twidth: 20%;\n" +
+                        " \theight: 5em;\n" +
+                        " \tmargin-left:40%;\n" +
+                        " \tmargin-right: 100%;\n" +
+                        "}\n";
+            } else if(startKnots > 1) {
+                test += "#vorgang" + this.getOperationNumber() + "{\n" +
+                        "margin-top: 10%;\n" +
+                        " \twidth: " + 40/startKnots + "%;\n" +
+                        " \theight: 5em;\n" +
+                        " \tmargin-left:" + 40/startKnots + "%;\n" +
+                        " \tmargin-right: 20px;\n" +
+                        "}\n";
+            }
         } else if (successorSize <= 2) {
             test += "#vorgang" + this.getOperationNumber() + "{\n" +
                     "margin-top: 10%;\n" +
@@ -41,7 +63,7 @@ public class Knot {
         } else if (successorSize > 2) {
             test += "#vorgang" + this.getOperationNumber() + "{\n" +
                     "margin-top: 10%;\n" +
-                    " \twidth: " + 50/successorSize + "%;\n" +
+                    " \twidth: " + 40/successorSize + "%;\n" +
                     " \theight: 5em;\n" +
                     " \tmargin-left:" + 40/successorSize + "%;\n" +
                     " \tmargin-right: 20px;\n" +
