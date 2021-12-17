@@ -134,9 +134,17 @@ public class NetPlanController {
         int counter = 0;
         List<Integer> countedPaths = new ArrayList<>();
         String test = "";
+
+        int countingStartKnots = 0;
+        for(Knot knot : knotList) {
+            if (knot.getPredecessor().size() == 0) {
+                countingStartKnots++;
+            }
+        }
+
         for(Knot knot : knotList) {
             if (knot.getPredecessor().size() == 0){
-                test += knot.getCssConnectionStyle(0);
+                test += knot.getCssConnectionStyle(0, countingStartKnots);
             }
             if (knot.getSuccessor().size() > 0) {
                 for (Knot success : knot.getSuccessor()) {

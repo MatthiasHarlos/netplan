@@ -18,24 +18,12 @@ public class Knot {
     private List<Knot> predecessor = new ArrayList<>();
 
 
-    public int countStartKnots(int counter) {
-        if ( this.predecessor.size() == 0) {
-            counter++;
-        }
-        if (this.successor.size() > 0) {
-            for (Knot success : this.successor) {
-                counter += success.countStartKnots(counter);
-            }
-        }
-        System.out.println("CountStartKnots= " + counter);
-        return counter;
-    }
 
-    public String getCssConnectionStyle(int successorSize) {
+
+    public String getCssConnectionStyle(int successorSize, int countingStartKnots) {
         String test = "";
         if (this.predecessor.size() == 0 || this.successor.size() > 1) {
-            int startKnots = this.countStartKnots(0);
-            if (startKnots == 1) {
+            if (countingStartKnots == 1) {
                 test += "#vorgang" + this.getOperationNumber() + "{\n" +
                         "margin-top: 10%;\n" +
                         " \twidth: 20%;\n" +
@@ -43,12 +31,12 @@ public class Knot {
                         " \tmargin-left:40%;\n" +
                         " \tmargin-right: 100%;\n" +
                         "}\n";
-            } else if(startKnots > 1) {
+            } else if(countingStartKnots > 1) {
                 test += "#vorgang" + this.getOperationNumber() + "{\n" +
                         "margin-top: 10%;\n" +
-                        " \twidth: " + 40/startKnots + "%;\n" +
+                        " \twidth: " + 40/countingStartKnots + "%;\n" +
                         " \theight: 5em;\n" +
-                        " \tmargin-left:" + 40/startKnots + "%;\n" +
+                        " \tmargin-left:" + 40/countingStartKnots + "%;\n" +
                         " \tmargin-right: 20px;\n" +
                         "}\n";
             }
@@ -72,7 +60,7 @@ public class Knot {
         }
         if (this.getSuccessor().size() > 0) {
             for (Knot success : this.successor) {
-                test += success.getCssConnectionStyle(this.successor.size());
+                test += success.getCssConnectionStyle(this.successor.size(), countingStartKnots);
             }
         }
         return test;
