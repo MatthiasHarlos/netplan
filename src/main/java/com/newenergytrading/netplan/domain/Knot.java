@@ -38,6 +38,7 @@ public class Knot {
                         " \theight: 5em;\n" +
                         " \tmargin-left:" + 40/countingStartKnots + "%;\n" +
                         " \tmargin-right: 20px;\n" +
+                        " font-size: 0.75vw;\n" +
                         "}\n";
             }
         } else if (successorSize <= 2) {
