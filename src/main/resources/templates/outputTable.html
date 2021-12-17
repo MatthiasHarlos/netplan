@@ -52,6 +52,12 @@
             right: 10px;
         }
 
+        .buttonTop3 {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+        }
+
         .button {
         color: white;
         width: 180px;
@@ -73,6 +79,9 @@
 <button class="buttonTop button buttonGreen" onclick="window.location.href='/deletedOld'">neuen Netzplan eingeben</button>
 <div class="buttonTop2">
     <button class="button buttonGreen" onclick="window.location.href='/graphicNetplan'">Grafische Ansicht</button>
+</div>
+<div class="buttonTop3">
+    <button class="button buttonGreen" onclick="window.location.href='/input'">Knoten bearbeiten</button>
 </div>
 <span class="box2" style="background: white">Gesamtdauer: <span th:text="${knotList.get(knotList.size()-1).getEarliestEnd()}" ></span></span>
 <span class="box2" style="background: #f0ce6c">Kritischer Pfad: <span th:each="path : ${pathsList}">
