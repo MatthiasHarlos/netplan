@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Netzplan</title>
-    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
     <style>
-
-
 
     body {
     text-align: center;
     padding: 20px;
    background: #e0e0e0;
-   font-size: 1vw;
     }
 
         .table {
@@ -192,8 +188,8 @@ function drawPath(svg, path, startX, startY, endX, endY) {
     if (svg.attr("width" ) < (startX + stroke) )    svg.attr("width", (startX + stroke));
     if (svg.attr("width" ) < (endX   + stroke) )    svg.attr("width", (endX   + stroke));
 
-    var deltaX = (endX - startX) * 0.15;
-    var deltaY = (endY - startY) * 0.15;
+    var deltaX = (endX - startX) * 0.25;
+    var deltaY = (endY - startY) * 0.35;
     // for further calculations which ever is the shortest distance
     var delta  =  deltaY < absolute(deltaX) ? deltaY : absolute(deltaX);
 
