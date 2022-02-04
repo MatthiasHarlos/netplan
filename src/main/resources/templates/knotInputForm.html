@@ -4,92 +4,13 @@
     <meta charset="UTF-8">
     <title>Netzplaner</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
-    <style>
-        body {
-        margin-top: 5%;
-        }
-
-         .center {
-         text-align: center;
-         }
-
-          .box {
-            float: left;
-            padding-left: 20px;
-            padding-right: 20px;
-            margin: 0 20px;
-            margin-left: 10%;
-            width: 450px;
-            margin-top: 5%;
-            background: #d1d1d1;
-            box-sizing: border-box;
-            border: 1px solid grey;
-        }
-        .box2 {
-            float: left;
-            padding-left: 20px;
-            padding-right: 20px;
-            margin: 0 20px;
-            margin-top: 5%;
-            width: 550px;
-            border: 1px solid grey;
-            background: #989898;
-        }
-
-        .table {
-        width: 100%;
-        }
-
-        .left {
-        float: left;
-        width: 250px;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        }
-        .right {
-        float: left;
-        margin-top: 2%;
-        margin-bottom: 2%;
-        width: 150px;
-        margin: 0 auto;
-        }
-
-        .button {
-        margin-top: 10%;
-        border-radius: 12px;
-        color: white;
-        }
-
-        .buttonNetPlan {
-        padding: 10px;
-        background: #93f261;
-        border: 1px solid #93f261;
-        }
-
-        .buttonDelete {
-        background: #f82b2b;
-        border: 1px solid #f82b2b;
-        }
-
-        .buttonSubmit {
-        background: dimGrey;
-        border: 1px solid dimGrey;
-        }
-
-        .dimGrey {
-        border: 1px solid grey;
-        background: #989898;
-        width: 109.5%;
-        margin-top: 1%;
-        margin-left: -5%;
-        text-align: right;
-        }
-    </style>
+    <LINK href="styles.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
 <div class="box">
-    <form method="post" action="saveInput" th:object="${knotInputFormToSave}">
+    <form method="post" th:action="saveInput" th:object="${knotInputFormToSave}">
+
         <div class="dimGrey">
              <h2 class="center">Vorgang <span th:utext="${operation}"></span></h2>
              <p class="center" style="font-size: 12px">- Bitte geben Sie alle nötigen Daten ein -</p>
@@ -105,7 +26,15 @@
             </p>
         </div>
         <div>
-            <label class="left" >Dauer in Minuten:*</label><input th:field="*{durationInMinutes}" class="right" type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
+            <label class="left" >Dauer in
+                <span>
+                    <select th:field="*{timeUnits}">
+                        <option th:each="timeUnit: ${T(com.newenergytrading.netplan.domain.TimeUnits).values()}"
+                                th:value="${timeUnit}"
+                                th:text="${timeUnit}"></option>
+                    </select>
+                </span>
+                :*</label><input th:field="*{durationInMinutes}" class="right" type="number"  id="durationInMinutes" name="durationInMinutes" value="0" min="0">
             <p  class="fielderror-container" th:if="${#fields.hasErrors('durationInMinutes')}">
                 <span  class="fielderror-detail"  id="errorTwo" th:each="err : ${#fields.errors('durationInMinutes')}" th:text="${err}"></span>
             </p>
@@ -142,12 +71,12 @@
         </div>
     </div>
         <div class="right" >
-            <button class="button buttonDelete" type="reset">löschen</button>
-            <button class="button buttonSubmit" type="submit">speichern</button>
+            <button class="buttonSelect buttonDelete" type="reset">löschen</button>
+            <button class="buttonSelect buttonSubmit" type="submit">speichern</button>
         </div>
     </form>
     <div class="left"></div>
-        <button class="button buttonNetPlan" onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
+        <button class="buttonSelect buttonNetPlan" onclick="window.location.href='/netPlanTable'">Netzplan erstellen</button>
          <p  class="fielderror-container" th:if="${error}">
             <span  class="fielderror-detail"  id="errorThree"  th:text="${error}"></span>
          </p>
@@ -172,14 +101,19 @@
         <tr th:each="knotInputForm : ${knotInputFormList}">
             <td th:text="${knotInputForm.operationNumber}"></td>
             <td th:text="${knotInputForm.operationDescription}"></td>
-            <td th:text="${knotInputForm.durationInMinutes}"></td>
+            <td>
+                <span th:text="${knotInputForm.durationInMinutes}"></span>
+                <span th:each="timeUnit : ${T(com.newenergytrading.netplan.domain.TimeUnits).values()}"
+                        th:if="${knotInputForm.timeUnits == timeUnit}"
+                        th:text="${timeUnit}"></span>
+            </td>
             <td>
                 <span th:if="${knotInputForm.predecessorOneListIndex != null}" th:text="${(knotInputForm.predecessorOneListIndex + 1)}"></span>
                 <span th:if="${knotInputForm.predecessorTwoListIndex != null}" th:text="${ ', ' + (knotInputForm.predecessorTwoListIndex + 1)}"></span>
                 <span th:if="${knotInputForm.predecessorThreeListIndex != null}" th:text="${ ', ' + (knotInputForm.predecessorThreeListIndex + 1)}"></span>
             </td>
             <td>
-                <form method="post" action="changeInput" th:object="${changeKnotInputForm}">
+                <form method="post" th:action="changeInput" th:object="${changeKnotInputForm}">
                     <input id="operationNumber" name="operationNumber" th:value="${knotInputFormList.indexOf(knotInputForm)}" hidden>
                     <button type="submit">&#9998;</button>
                 </form>

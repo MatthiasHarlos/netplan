@@ -4,73 +4,7 @@
     <meta charset="UTF-8">
     <title>Netzplaner</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
-    <style>
-
-    body {
-    text-align: center;
-    padding: 20px;
-   background: #e0e0e0;
-    }
-
-        .table {
-        margin-top: 100px;
-        background: white;
-        width: 100%;
-        font-size: 1vw;
-        }
-
-         .box2 {
-            float: left;
-            padding-left: 30px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            padding-right: 30px;
-            margin: 0 20px;
-            width: 40%;
-            border: 1px solid grey;
-            background: #989898;
-        }
-
-         .title {
-        padding: 20px;
-        border: 1px solid grey;
-        margin-top: 10%;
-        margin-left: 20%;
-        margin-right: 20%;
-        margin-bottom: 3%;
-        background: grey;
-        }
-
-        .buttonTop {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-         .buttonTop2 {
-            position: absolute;
-            top: 40px;
-            right: 10px;
-        }
-
-        .buttonTop3 {
-            position: absolute;
-            top: 70px;
-            right: 10px;
-        }
-
-        .button {
-        color: white;
-        width: 180px;
-        border-radius: 12px;
-        }
-
-        .buttonGreen {
-        padding: 4px;
-        background: #93f261;
-        border: 1px solid #93f261;
-        }
-
-    </style>
+    <LINK href="styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div>
@@ -110,7 +44,10 @@
     <tr th:each="knot : ${knotList}" th:style="${knot.getTotalBuffer()} == 0 and ${knot.getFreeBuffer()} == 0 ? 'background: #f0ce6c' : 'background: white'">
         <td th:text="${knot.operationNumber}"></td>
         <td th:text="${knot.operationDescription}"></td>
-        <td th:text="${knot.durationInMinutes}"></td>
+        <td>
+            <span th:text="${knot.durationInMinutes}"></span>
+
+        </td>
         <td><span th:each="predecessor : ${knot.getPredecessor()}" th:text="${predecessor.operationNumber + ' '}"></span></td>
         <td><span th:each="successor : ${knot.getSuccessor()}" th:text="${successor.operationNumber + ' '}"></span></td>
         <td th:text="${knot.totalBuffer}"></td>

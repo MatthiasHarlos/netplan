@@ -8,6 +8,7 @@ public class Knot {
     private int operationNumber;
     private String operationDescription;
     private int durationInMinutes;
+    private TimeUnits timeUnits;
     private int earliestStart;
     private int earliestEnd;
     private int latestStart;
@@ -16,56 +17,10 @@ public class Knot {
     private int freeBuffer;
     private List<Knot> successor = new ArrayList<>();
     private List<Knot> predecessor = new ArrayList<>();
+    private int rowListIndexSelf;
+    private int rowListLowestSuccessorIndex;
+    private int rowListHighestPredecessorIndex;
 
-
-
-
-    public String getCssConnectionStyle(int successorSize, int countingStartKnots) {
-        String test = "";
-        if (this.predecessor.size() == 0 || this.successor.size() > 1) {
-            if (countingStartKnots == 1) {
-                test += "#vorgang" + this.getOperationNumber() + "{\n" +
-                        "margin-top: 10%;\n" +
-                        " \twidth: 20%;\n" +
-                        " \theight: 5em;\n" +
-                        " \tmargin-left:40%;\n" +
-                        " \tmargin-right: 100%;\n" +
-                        "}\n";
-            } else if(countingStartKnots > 1) {
-                test += "#vorgang" + this.getOperationNumber() + "{\n" +
-                        "margin-top: 10%;\n" +
-                        " \twidth: " + 40/countingStartKnots + "%;\n" +
-                        " \theight: 5em;\n" +
-                        " \tmargin-left:" + 40/countingStartKnots + "%;\n" +
-                        " \tmargin-right: 20px;\n" +
-                        " font-size: 0.75vw;\n" +
-                        "}\n";
-            }
-        } else if (successorSize <= 2) {
-            test += "#vorgang" + this.getOperationNumber() + "{\n" +
-                    "margin-top: 10%;\n" +
-                    " \twidth: 20%;\n" +
-                    " \theight: 5em;\n" +
-                    " \tmargin-left:" + 40/successorSize + "%;\n" +
-                    " \tmargin-right: 20px;\n" +
-                    "}\n";
-        } else if (successorSize > 2) {
-            test += "#vorgang" + this.getOperationNumber() + "{\n" +
-                    "margin-top: 10%;\n" +
-                    " \twidth: " + 40/successorSize + "%;\n" +
-                    " \theight: 5em;\n" +
-                    " \tmargin-left:" + 40/successorSize + "%;\n" +
-                    " \tmargin-right: 20px;\n" +
-                    " font-size: 10px;\n" +
-                    "}\n";
-        }
-        if (this.getSuccessor().size() > 0) {
-            for (Knot success : this.successor) {
-                test += success.getCssConnectionStyle(this.successor.size(), countingStartKnots);
-            }
-        }
-        return test;
-    }
 
     public List<List<Knot>> calculateCriticalPath(List<Knot> criticalPath) {
         List<List<Knot>> criticalPaths = new ArrayList<>();
@@ -87,6 +42,20 @@ public class Knot {
         }
         criticalPaths.add(criticalPath);
         return criticalPaths;
+    }
+
+    public List<List<Knot>> getAllPaths(List<Knot> nextKnots) {
+        List<List<Knot>> allPaths = new ArrayList<>();
+        List<Knot> anotherPath;
+            nextKnots.add(this);
+            if (this.predecessor != null && this.predecessor.size() > 0) {
+                    for (Knot predecessor : this.predecessor) {
+                            anotherPath = new ArrayList<>(nextKnots);
+                            allPaths.addAll(predecessor.getAllPaths(anotherPath));
+                    }
+                }
+            allPaths.add(nextKnots);
+        return allPaths;
     }
 
     public void calculateEarliestTime(int earliestTime) {
@@ -142,10 +111,30 @@ public class Knot {
         }
     }
 
+    public int getDurationTimeUnits() {
+        switch (this.getTimeUnits()) {
+            case HOUR:
+                return this.durationInMinutes / 60;
+            case DAY:
+                return this.durationInMinutes / 1440;
+            case WEEK:
+                return this.durationInMinutes / 10080;
+            default:
+                return this.durationInMinutes;
+        }
+    }
+
     public Knot(int operationNumber, String operationDescription, int durationInMinutes) {
         this.operationNumber = operationNumber;
         this.operationDescription = operationDescription;
         this.durationInMinutes = durationInMinutes;
+    }
+
+    public Knot(int operationNumber, String operationDescription, int durationInMinutes, TimeUnits timeUnits) {
+        this.operationNumber = operationNumber;
+        this.operationDescription = operationDescription;
+        this.durationInMinutes = durationInMinutes;
+        this.timeUnits = timeUnits;
     }
 
     public Knot(int operationNumber, String operationDescription, int durationInMinutes, List<Knot> successor, List<Knot> predecessor) {
@@ -266,18 +255,42 @@ public class Knot {
         this.predecessor = predecessor;
     }
 
+    public TimeUnits getTimeUnits() {
+        return timeUnits;
+    }
+
+    public void setTimeUnits(TimeUnits timeUnits) {
+        this.timeUnits = timeUnits;
+    }
+
+    public int getRowListIndexSelf() {
+        return rowListIndexSelf;
+    }
+
+    public void setRowListIndexSelf(int rowListIndexSelf) {
+        this.rowListIndexSelf = rowListIndexSelf;
+    }
+
+    public int getRowListLowestSuccessorIndex() {
+        return rowListLowestSuccessorIndex;
+    }
+
+    public void setRowListLowestSuccessorIndex(int rowListLowestSuccessorIndex) {
+        this.rowListLowestSuccessorIndex = rowListLowestSuccessorIndex;
+    }
+
+    public int getRowListHighestPredecessorIndex() {
+        return rowListHighestPredecessorIndex;
+    }
+
+    public void setRowListHighestPredecessorIndex(int rowListHighestPredecessorIndex) {
+        this.rowListHighestPredecessorIndex = rowListHighestPredecessorIndex;
+    }
+
     @Override
     public String toString() {
         return "Knot{" +
                 "operationNumber=" + operationNumber +
-                ", operationDescription='" + operationDescription + '\'' +
-                ", durationInMinutes=" + durationInMinutes +
-                ", earliestStart=" + earliestStart +
-                ", earliestEnd=" + earliestEnd +
-                ", latestStart=" + latestStart +
-                ", latestEnd=" + latestEnd +
-                ", totalBuffer=" + totalBuffer +
-                ", freeBuffer=" + freeBuffer +
                 '}';
     }
 }

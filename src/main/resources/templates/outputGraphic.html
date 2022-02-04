@@ -3,142 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Netzplan</title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=0.86, maximum-scale=5.0, minimum-scale=0.86">
+    <LINK href="styles.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="jquery.html-svg-connect.js" type="text/javascript"></script>
+    <script th:utext="${javaScriptKnots}"></script>
 
-    body {
-    text-align: center;
-   background: #e0e0e0;
-    }
-
-        .table {
-        margin-top: 100px;
-        background: white;
-        width: 100%;
-        }
-
-         .box2 {
-            float: left;
-            padding-left: 30px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            padding-right: 30px;
-            margin: 0 20px;
-            width: 40%;
-            border: 1px solid grey;
-            background: #989898;
-        }
-
-         .title {
-        padding: 20px;
-        border: 1px solid grey;
-        margin-top: 10%;
-        margin-left: 20%;
-        margin-right: 20%;
-        margin-bottom: 3%;
-        background: grey;
-        }
-
-        .buttonTop {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-         .buttonTop2 {
-            position: absolute;
-            top: 40px;
-            right: 10px;
-        }
-         .buttonTop3 {
-            position: absolute;
-            top: 70px;
-            right: 10px;
-        }
-
-        .button {
-        color: white;
-        width: 180px;
-        border-radius: 12px;
-        }
-
-        .buttonGreen {
-        padding: 4px;
-        background: #93f261;
-        border: 1px solid #93f261;
-        }
-
-        .container {
-        margin: 0 auto;
-        width: 15vw;
-        float: left;
-        flex: 2 1 auto;
-        display: grid;
-        grid-template-rows: 15px 2fr 15px 1fr;
-        grid-template-columns: 10%;
-        }
-
-         .faz {
-        grid-column: 1;
-        grid-row: 1;
-        }
-        .fez {
-        grid-column: 5;
-        grid-row: 1;
-        }
-        .vn {
-        grid-column: 2;
-        grid-row: 2;
-        border: 1px solid black;
-        }
-        .vorgangsbezeichnung {
-        grid-column: 2 / 5;
-        grid-row: 2;
-        border: 1px solid black;
-        font-size: 0.5vw;
-        }
-
-        .dauer {
-        grid-column: 2;
-        grid-row: 3;
-        border: 1px solid black;
-        }
-        .gp {
-        grid-column: 3;
-        grid-row: 3;
-        border: 1px solid black;
-        }
-        .fp {
-        grid-column: 4;
-        grid-row: 3;
-        border: 1px solid black;
-        }
-        .saz {
-        grid-column: 1;
-        grid-row: 4;
-        }
-        .sez {
-        grid-column: 5;
-        grid-row: 4;
-        }
-
-#svgContainer {
-	z-index: -10;
-	position:absolute;
-	opacity: 0.5;
-}
-
-#outer{
-	margin:0 auto;
-	width: 80%;
-}
-
-.info {
-    color: #2697ab;
-    text-decoration: underline;
-}
-
-    </style>
-    <style th:utext="${cssConnectionStyle}"></style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
 <div>
@@ -151,12 +21,18 @@
 <div class="buttonTop3">
     <button class="button buttonGreen" onclick="window.location.href='/input'">Knoten bearbeiten</button>
 </div>
-<span class="box2" style="background: white">Gesamtdauer: <span th:text="${knotList.get(knotList.size()-1).getEarliestEnd()}" ></span></span>
+<div class="buttonTop4">
+    <button class="button buttonGreen" onclick="window.location.href='/graphicNetplan'">Grafik refresh?</button>
+</div>
+<span class="box2" style="background: white">Gesamtdauer: <span th:text="${knotList.get(knotList.size()-2).getEarliestEnd()}" ></span></span>
 <span class="box2" style="background: #f0ce6c">Kritischer Pfad: <span th:each="path : ${pathsList}">
     <span th:text="${(pathsList.indexOf(path)+1) + '. Pfad: '}" ></span>
     <span th:each="knot : ${path}" th:text="${knot.getOperationNumber() + ', '}"></span>
     </span>
 </span>
+
+
+<div class="paper" style="margin-top: 10%">
 
 <div id="svgContainer" style="margin: 0 auto;">
     <svg id="svg1" width="0" height="0" >
@@ -165,115 +41,29 @@
                 d="M0 0"
                 stroke="#000"
                 fill="none"
-                stroke-width="12px"/>
+                stroke-width="4px"/>
     </svg>
 </div>
-
-<div id= "outer">
-    <div class="container" th:each="knot : ${knotList}" th:id="'vorgang' + ${knot.operationNumber}" th:style="${knot.getTotalBuffer()} == 0 and ${knot.getFreeBuffer()} == 0 ? 'background: #f0ce6c' : 'background: white'">
-        <div class="faz zeiten" th:text="${knot.earliestStart}">FAZ</div>
-        <div class="fez zeiten" th:text="${knot.earliestEnd}">FEZ</div>
-        <div class="vn"  th:text="${knot.operationNumber}"> VN </div>
-        <div class="vorgangsbezeichnung" ><span class="info" th:title="${knot.operationDescription}">INFO</span></div>
-        <div class="dauer" th:text="${knot.durationInMinutes}">Dauer</div>
-        <div class="gp puffer" th:text="${knot.totalBuffer}">GP</div>
-        <div class="fp puffer" th:text="${knot.freeBuffer}">FP</div>
-        <div class="saz zeiten" th:text="${knot.latestStart}">SAZ</div>
-        <div class="sez zeiten" th:text="${knot.latestEnd}">SEZ</div>
+    <div class="flex" th:each="row : ${rowList}">
+        <div class="item" th:each="knot : ${row}">
+        <div th:if="${knot.operationNumber} != 0"
+             th:class="(${knot.rowListIndexSelf}-2) > ${knot.rowListHighestPredecessorIndex} ? 'container container3' : 'container container1'"
+             th:classappend="(${knot.rowListIndexSelf}+1) <  ${knot.rowListLowestSuccessorIndex}  ? container2 : 'container1'"
+             th:id="'vorgang' + ${knot.operationNumber}"
+             th:style="${knot.getTotalBuffer()} == 0 and ${knot.getFreeBuffer()} == 0 ? 'background: #f0ce6c' : 'background: white'">
+            <div class="faz zeiten" th:text="${knot.earliestStart}">FAZ</div>
+            <div class="fez zeiten" th:text="${knot.earliestEnd}">FEZ</div>
+            <div class="vn"  th:text="${knot.operationNumber}"> VN </div>
+            <div class="vorgangsbezeichnung" ><span class="info" th:title="${knot.operationDescription}"
+                                                    th:text="${knot.operationDescription}">INFO</span></div>
+            <div class="dauer" th:text="${knot.durationInMinutes}">Dauer</div>
+            <div class="gp puffer" th:text="${knot.totalBuffer}">GP</div>
+            <div class="fp puffer" th:text="${knot.freeBuffer}">FP</div>
+            <div class="saz zeiten" th:text="${knot.latestStart}">SAZ</div>
+            <div class="sez zeiten" th:text="${knot.latestEnd}">SEZ</div>
+        </div>
+        </div>
     </div>
 </div>
-
-
-<script th:utext="${javaScriptKnots}"></script>
-
-<script>
-    function signum(x) {
-    return (x < 0) ? -1 : 1;
-}
-function absolute(x) {
-    return (x < 0) ? -x : x;
-}
-
-function drawPath(svg, path, startX, startY, endX, endY) {
-    // get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
-    var stroke =  parseFloat(path.attr("stroke-width"));
-    // check if the svg is big enough to draw the path, if not, set heigh/width
-    if (svg.attr("height") <  endY)                 svg.attr("height", endY);
-    if (svg.attr("width" ) < (startX + stroke) )    svg.attr("width", (startX + stroke));
-    if (svg.attr("width" ) < (endX   + stroke) )    svg.attr("width", (endX   + stroke));
-
-    var deltaX = (endX - startX) * 0.65;
-    var deltaY = (endY - startY) * 0.35;
-    // for further calculations which ever is the shortest distance
-    var delta  =  deltaY < absolute(deltaX) ? deltaY : absolute(deltaX);
-
-    // set sweep-flag (counter/clock-wise)
-    // if start element is closer to the left edge,
-    // draw the first arc counter-clockwise, and the second one clock-wise
-    var arc1 = 0; var arc2 = 1;
-    if (startX > endX) {
-        arc1 = 1;
-        arc2 = 0;
-    }
-    // draw tha pipe-like path
-    // 1. move a bit down, 2. arch,  3. move a bit to the right, 4.arch, 5. move down to the end
-    path.attr("d",  "M"  + startX + " " + startY +
-                    " V" + (startY + delta) +
-                    " A" + delta + " " +  delta + " 0 0 " + arc1 + " " + (startX + delta*signum(deltaX)) + " " + (startY + 2*delta) +
-                    " H" + (endX - delta*signum(deltaX)) +
-                    " A" + delta + " " +  delta + " 0 0 " + arc2 + " " + endX + " " + (startY + 3*delta) +
-                    " V" + endY );
-}
-
-function connectElements(svg, path, startElem, endElem) {
-    var svgContainer= $("#svgContainer");
-
-    // if first element is lower than the second, swap!
-    if(startElem.offset().top > endElem.offset().top){
-        var temp = startElem;
-        startElem = endElem;
-        endElem = temp;
-    }
-
-    // get (top, left) corner coordinates of the svg container
-    var svgTop  = svgContainer.offset().top;
-    var svgLeft = svgContainer.offset().left;
-
-    // get (top, left) coordinates for the two elements
-    var startCoord = startElem.offset();
-    var endCoord   = endElem.offset();
-
-    // calculate path's start (x,y)  coords
-    // we want the x coordinate to visually result in the element's mid point
-    var startX = startCoord.left + 0.5*startElem.outerWidth() - svgLeft;    // x = left offset + 0.5*width - svg's left offset
-    var startY = startCoord.top  + startElem.outerHeight() - svgTop;        // y = top offset + height - svg's top offset
-
-        // calculate path's end (x,y) coords
-    var endX = endCoord.left + 0.5*endElem.outerWidth() - svgLeft;
-    var endY = endCoord.top  - svgTop;
-
-    // call function for drawing the path
-    drawPath(svg, path, startX, startY, endX, endY);
-
-}
-
-$(document).ready(function() {
-    // reset svg each time
-    $("#svg1").attr("height", "0");
-    $("#svg1").attr("width", "0");
-    connectAll();
-});
-
-$(window).resize(function () {
-    // reset svg each time
-    $("#svg1").attr("height", "0");
-    $("#svg1").attr("width", "0");
-    connectAll();
-});
-</script>
-
-
-
-
 </body>
 </html>

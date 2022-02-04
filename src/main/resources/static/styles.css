@@ -1,0 +1,242 @@
+ body {
+    text-align: center;
+   background: #e0e0e0;
+    }
+
+         .center {
+         text-align: center;
+         }
+
+          .box {
+            float: left;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin: 0 20px;
+            margin-left: 10%;
+            width: 450px;
+            margin-top: 2%;
+            background: #d1d1d1;
+            box-sizing: border-box;
+            border: 1px solid grey;
+        }
+
+        .left {
+        float: left;
+        width: 250px;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        }
+
+        .right {
+        float: left;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        width: 150px;
+        margin: 0 auto;
+        }
+
+        .buttonSelect {
+        margin-top: 10%;
+        border-radius: 12px;
+        color: white;
+        }
+
+        .buttonNetPlan {
+        padding: 10px;
+        background: #93f261;
+        border: 1px solid #93f261;
+        }
+
+        .buttonDelete {
+        background: #f82b2b;
+        border: 1px solid #f82b2b;
+        }
+
+        .buttonSubmit {
+        background: dimGrey;
+        border: 1px solid dimGrey;
+        }
+
+        .dimGrey {
+        border: 1px solid grey;
+        background: #989898;
+        width: 109.5%;
+        margin-top: 1%;
+        margin-left: -5%;
+        text-align: right;
+        }
+
+        .table {
+        margin-top: 100px;
+        background: white;
+        width: 100%;
+        }
+
+         .box2 {
+            float: left;
+            padding-left: 30px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 30px;
+            margin: 0 20px;
+            margin-top: 2%;
+            width: 40%;
+            border: 1px solid grey;
+            background: #989898;
+        }
+
+         .title {
+        padding: 20px;
+        border: 1px solid grey;
+        margin-top: 10%;
+        margin-left: 20%;
+        margin-right: 20%;
+        margin-bottom: 3%;
+        background: grey;
+        }
+
+        .buttonTop {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+         .buttonTop2 {
+            position: absolute;
+            top: 40px;
+            right: 10px;
+        }
+         .buttonTop3 {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+        }
+        .buttonTop4 {
+            position: absolute;
+            top: 100px;
+            right: 10px;
+        }
+
+        .button {
+        color: white;
+        width: 180px;
+        border-radius: 12px;
+        }
+
+        .buttonGreen {
+        padding: 4px;
+        background: #93f261;
+        border: 1px solid #93f261;
+        }
+
+        .container {
+        float: left;
+        flex: 2 1 auto;
+        display: grid;
+        grid-template-rows: 15px 2fr 15px 1fr;
+        grid-template-columns: 10%;
+        }
+
+         .container1 {
+        margin-left: 50px;
+        width: 15vw;
+        }
+
+         .container2 {
+        margin-left: 700px;
+        width: 15vw;
+        }
+
+        .container3 {
+        position: absolute;
+        left: 300px;
+        margin-left: 60%;
+        margin-top: -7%;
+        width: 15vw;
+        }
+
+         .faz {
+        grid-column: 1;
+        grid-row: 1;
+        }
+        .fez {
+        grid-column: 5;
+        grid-row: 1;
+        }
+        .vn {
+        grid-column: 2;
+        grid-row: 2;
+        border: 1px solid black;
+        }
+        .vorgangsbezeichnung {
+        grid-column: 2 / 5;
+        grid-row: 2;
+        border: 1px solid black;
+        font-size: 0.6vw;
+        }
+
+        .dauer {
+        grid-column: 2;
+        grid-row: 3;
+        border: 1px solid black;
+        }
+        .gp {
+        grid-column: 3;
+        grid-row: 3;
+        border: 1px solid black;
+        }
+        .fp {
+        grid-column: 4;
+        grid-row: 3;
+        border: 1px solid black;
+        }
+        .saz {
+        grid-column: 1;
+        grid-row: 4;
+        }
+        .sez {
+        grid-column: 5;
+        grid-row: 4;
+        }
+
+#svgContainer {
+	z-index: 0;
+	position:absolute;
+	opacity: 0.5;
+}
+
+
+
+.info {
+    color: #2697ab;
+    text-decoration: underline;
+    float: right;
+}
+
+.flex {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+    margin-right: 10%;
+    justify-content: center;
+}
+
+
+.item {
+z-index: 2;
+flex-basis: 100px;
+flex-grow: 0;
+flex-shrink: 0;
+    align-content: center;
+
+}
+
+.paper{
+z-index: -100;
+background: silver;
+margin: 0 auto;
+min-width: max-content;
+max-width: 100%;
+border: 5px solid black;
+padding-bottom: 20px;
+}

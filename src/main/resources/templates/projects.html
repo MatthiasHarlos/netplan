@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Netzplan</title>
+</head>
+<body>
+
+<h2>Verwaltung Ihrer Projekte</h2>
+
+<form method="post" th:action="loadProject" th:object="${project}">
+  <label>Laden Sie ein abgespeichertes Projekt!</label>
+  <select th:field="*{id}">
+    <option th:each="project : ${projects}"
+            th:value="${project.getId()}"
+            th:text="${project.getProjectname()}">
+    </option>
+  </select>
+  <button type="submit">Laden</button>
+</form>
+<form method="post" th:action="deleteProject" th:object="${project}">
+  <label>Löschen Sie ein abgespeichertes Projekt!</label>
+  <select>
+    <option th:each="project : ${projects}"
+            th:value="${project.getId()}"
+            th:text="${project.getProjectname()}">
+    </option>
+  </select>
+  <button type="submit">Löschen</button>
+</form>
+
+<form method="get" action="saveProject">
+  <label>Aktuelles Projekt abspeichern!</label>
+  <button type="submit">//TODO: Symbol</button>
+</form>
+
+</body>
+</html>
